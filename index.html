@@ -5,12 +5,7 @@
 <title>VK Running Games</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="description" content="Play online running games. RGB gaming zone by VK.">
-<meta name="keywords" content="running games, endless runner, online games">
-
 <style>
-:root{--g:#22c55e}
-*{box-sizing:border-box}
 body{
   margin:0;
   font-family:system-ui, Arial;
@@ -18,38 +13,25 @@ body{
   color:white;
 }
 
-/* RGB HEADER */
+/* RGB BANNER ONLY */
 header{
   padding:16px;
   text-align:center;
   animation: rgb 6s linear infinite;
+  color:black;
+  font-weight:900;
+  font-size:22px;
 }
 @keyframes rgb{
   0%{background:#ff0000}
-  16%{background:#ff7f00}
-  32%{background:#ffff00}
-  48%{background:#00ff00}
-  64%{background:#0000ff}
-  80%{background:#4b0082}
-  100%{background:#8f00ff}
+  20%{background:#ffff00}
+  40%{background:#00ff00}
+  60%{background:#00ffff}
+  80%{background:#0000ff}
+  100%{background:#ff00ff}
 }
-
-/* VK LOGO (3D) */
-.logo{
-  display:inline-flex;
-  align-items:center;justify-content:center;
-  width:48px;height:48px;
-  border-radius:14px;
-  background:#000;
-  color:#0f0;
-  font-weight:900;
-  box-shadow:0 0 14px rgba(0,0,0,.7), inset 0 0 10px rgba(255,255,255,.1);
-  margin-right:8px;
-}
-.title{font-size:22px;font-weight:900;color:#000}
 
 .section{padding:16px}
-h2{font-size:18px;margin:8px 0 12px}
 .games{
   display:grid;
   grid-template-columns:repeat(2,1fr);
@@ -60,131 +42,135 @@ h2{font-size:18px;margin:8px 0 12px}
   padding:14px;
   border-radius:14px;
   text-align:center;
-  box-shadow:0 6px 16px rgba(0,0,0,.4);
 }
-.card h3{margin:6px 0 10px;font-size:15px}
+.card h3{margin:6px 0 10px}
 
-/* RGB BUTTON */
+/* RED PLAY BUTTON */
 .btn{
-  display:block;
+  background:#dc2626;
+  color:white;
+  border:none;
   padding:10px;
+  width:100%;
   border-radius:10px;
-  text-decoration:none;
-  font-weight:900;
-  color:#000;
-  animation: rgb 5s linear infinite;
+  font-weight:700;
+  font-size:15px;
 }
 
-/* GAME PLAYER */
-#player{
-  display:none;
-  position:fixed;inset:0;
-  background:#000;
-  z-index:999;
+/* GAME AREA */
+#game{
+  margin-top:16px;
+  text-align:center;
 }
-#player iframe{
-  width:100%;height:100%;border:0;
-}
-#close{
-  position:absolute;top:10px;right:10px;
-  padding:8px 12px;border-radius:8px;
-  background:#ef4444;color:#000;font-weight:900;
-}
-
-/* ADS PLACEHOLDER */
-.ad{
-  margin:12px auto;
-  width:90%;height:90px;
-  border:2px dashed #334155;
+canvas{
+  background:black;
   border-radius:10px;
-  display:flex;align-items:center;justify-content:center;
-  color:#94a3b8;font-size:12px;
 }
-
-footer{text-align:center;font-size:12px;opacity:.7;padding:12px}
 </style>
 </head>
 
 <body>
 
-<header>
-  <span class="logo">VK</span>
-  <span class="title">Vivek Running Games</span>
-</header>
+<header>🎮 VK Running Games</header>
 
 <div class="section">
-<h2>🔥 Online Running Games</h2>
-
 <div class="games">
 
 <div class="card">
-<h3>Subway Surfers</h3>
-<a class="btn" onclick="play('https://poki.com/en/g/subway-surfers')">Play</a>
+<h3>Runner Game</h3>
+<button class="btn" onclick="startRunner()">Play</button>
 </div>
 
 <div class="card">
-<h3>Temple Run 2</h3>
-<a class="btn" onclick="play('https://poki.com/en/g/temple-run-2')">Play</a>
+<h3>Snake Game</h3>
+<button class="btn" onclick="startSnake()">Play</button>
 </div>
 
 <div class="card">
-<h3>Run 3</h3>
-<a class="btn" onclick="play('https://poki.com/en/g/run-3')">Play</a>
+<h3>Jump Game</h3>
+<button class="btn" onclick="startJump()">Play</button>
 </div>
 
 <div class="card">
-<h3>Shortcut Run</h3>
-<a class="btn" onclick="play('https://poki.com/en/g/shortcut-run')">Play</a>
-</div>
-
-<div class="card">
-<h3>Parkour Race</h3>
-<a class="btn" onclick="play('https://poki.com/en/g/parkour-race')">Play</a>
-</div>
-
-<div class="card">
-<h3>Stair Run Online</h3>
-<a class="btn" onclick="play('https://poki.com/en/g/stair-run-online')">Play</a>
-</div>
-
-<div class="card">
-<h3>Rooftop Run</h3>
-<a class="btn" onclick="play('https://poki.com/en/g/rooftop-run')">Play</a>
-</div>
-
-<div class="card">
-<h3>Fun Race 3D</h3>
-<a class="btn" onclick="play('https://poki.com/en/g/fun-race-3d')">Play</a>
+<h3>Box Dodge</h3>
+<button class="btn" onclick="startDodge()">Play</button>
 </div>
 
 </div>
 
-<div class="ad">AdSense Ad Here (Future)</div>
+<div id="game"></div>
 </div>
-
-<!-- PLAYER -->
-<div id="player">
-  <button id="close" onclick="closePlayer()">X</button>
-  <iframe id="frame"></iframe>
-</div>
-
-<footer>© 2026 VK • Vivek Running Games</footer>
 
 <script>
-function play(url){
-  document.getElementById('player').style.display='block';
-  document.getElementById('frame').src=url;
+/* CLEAR GAME */
+function clearGame(){
+  document.getElementById("game").innerHTML="";
 }
-function closePlayer(){
-  document.getElementById('frame').src='';
-  document.getElementById('player').style.display='none';
+
+/* RUNNER */
+function startRunner(){
+clearGame();
+game.innerHTML='<canvas id="c" width="300" height="200"></canvas>';
+let c=c=document.getElementById("c"),x=30,y=150,ob=300;
+let ctx=c.getContext("2d");
+setInterval(()=>{
+ctx.clearRect(0,0,300,200);
+ctx.fillStyle="lime";ctx.fillRect(x,y,20,20);
+ctx.fillStyle="red";ctx.fillRect(ob,150,20,20);
+ob-=5;if(ob<0)ob=300;
+},50);
+document.onclick=()=>y=120;
+}
+
+/* SNAKE */
+function startSnake(){
+clearGame();
+game.innerHTML='<canvas id="s" width="300" height="200"></canvas>';
+let c=document.getElementById("s"),ctx=c.getContext("2d");
+let x=100,y=100,dx=10,dy=0;
+document.onkeydown=e=>{
+if(e.key=="ArrowUp"){dx=0;dy=-10}
+if(e.key=="ArrowDown"){dx=0;dy=10}
+if(e.key=="ArrowLeft"){dx=-10;dy=0}
+if(e.key=="ArrowRight"){dx=10;dy=0}
+};
+setInterval(()=>{
+ctx.clearRect(0,0,300,200);
+x+=dx;y+=dy;
+ctx.fillStyle="lime";ctx.fillRect(x,y,10,10);
+},100);
+}
+
+/* JUMP */
+function startJump(){
+clearGame();
+game.innerHTML='<h3>Tap to Jump</h3><canvas id="j" width="300" height="200"></canvas>';
+let c=document.getElementById("j"),ctx=c.getContext("2d");
+let y=150,vy=0;
+setInterval(()=>{
+ctx.clearRect(0,0,300,200);
+vy+=1;y+=vy;
+if(y>150){y=150;vy=0}
+ctx.fillStyle="cyan";ctx.fillRect(50,y,20,20);
+},50);
+document.onclick=()=>vy=-15;
+}
+
+/* DODGE */
+function startDodge(){
+clearGame();
+game.innerHTML='<canvas id="d" width="300" height="200"></canvas>';
+let c=document.getElementById("d"),ctx=c.getContext("2d");
+let x=140,obx=0;
+setInterval(()=>{
+ctx.clearRect(0,0,300,200);
+ctx.fillStyle="white";ctx.fillRect(x,160,20,20);
+ctx.fillStyle="red";ctx.fillRect(obx,160,20,20);
+obx+=5;if(obx>300)obx=0;
+},50);
+document.onmousemove=e=>x=e.offsetX;
 }
 </script>
-
-<!-- AdSense (Future) -->
-<!--
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
--->
 
 </body>
 </html>
