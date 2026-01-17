@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>VK Running Games</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VK Games</title>
 
 <style>
+*{margin:0;padding:0;box-sizing:border-box}
 body{
-  margin:0;
-  font-family:system-ui;
+  font-family:Arial, sans-serif;
   background:#020617;
   color:white;
   text-align:center;
@@ -18,13 +18,11 @@ body{
 header{
   padding:12px;
   display:flex;
-  align-items:center;
   justify-content:space-between;
-  gap:10px;
-  font-size:20px;
-  font-weight:900;
+  align-items:center;
   animation:rgb 6s linear infinite;
   color:black;
+  font-weight:900;
 }
 @keyframes rgb{
   0%{background:red}
@@ -35,14 +33,11 @@ header{
   100%{background:magenta}
 }
 
-/* LEFT */
 .left{
   display:flex;
   align-items:center;
   gap:8px;
 }
-
-/* VK LOGO */
 .logo{
   width:40px;height:40px;
   border-radius:12px;
@@ -53,18 +48,14 @@ header{
   justify-content:center;
   font-weight:900;
 }
-
-/* YOUTUBE LOGO */
 .yt{
-  width:36px;
-  height:36px;
+  width:36px;height:36px;
   border-radius:10px;
   background:#ff0000;
   color:white;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:18px;
   text-decoration:none;
 }
 
@@ -93,15 +84,16 @@ header{
 
 /* GAME */
 canvas{
-  background:black;
-  border-radius:12px;
-  margin-top:10px;
+  background:white;
+  border-radius:10px;
+  display:block;
+  margin:10px auto;
 }
 .controls{
   display:flex;
   justify-content:center;
   gap:20px;
-  margin-top:10px;
+  margin:10px 0;
 }
 </style>
 </head>
@@ -111,21 +103,20 @@ canvas{
 <header>
   <div class="left">
     <div class="logo">VK</div>
-    VK Running Games
+    VK Games
   </div>
-
-  <!-- YouTube Link -->
   <a class="yt" href="https://youtube.com/@music01-1?si=gKGAPsbV4Fvjb79I" target="_blank">▶</a>
 </header>
 
+<!-- MENU -->
 <div class="menu">
   <div class="card">
-    <h3>Box Dodge</h3>
-    <button class="btn" onclick="startBox()">Play</button>
+    <h3>🚗 Car Drive</h3>
+    <button class="btn" onclick="startCar()">Play</button>
   </div>
   <div class="card">
-    <h3>Tap Jump</h3>
-    <button class="btn" onclick="startJump()">Play</button>
+    <h3>🏃 Running Game</h3>
+    <button class="btn" onclick="startRun()">Play</button>
   </div>
 </div>
 
@@ -140,87 +131,121 @@ function clearGame(){
   gameArea.innerHTML="";
 }
 
-/* BOX DODGE */
-function startBox(){
+/* ================= CAR DRIVE ================= */
+function startCar(){
 clearGame();
-let score=0,speed=3,gameOver=false;
-let high=localStorage.getItem("boxHigh")||0;
+let score=0,speed=4,gameOver=false;
+let high=localStorage.getItem("carHigh")||0;
 
 gameArea.innerHTML=`
-<h3>Box Dodge</h3>
-<p id="info">Score: 0 | High: ${high}</p>
-<canvas id="c" width="300" height="400"></canvas>
+<h3>🚗 Car Drive</h3>
+<p id="cinfo">Score: 0 | High: ${high}</p>
+<canvas id="car" width="300" height="400"></canvas>
 <div class="controls">
-<button class="btn" ontouchstart="px-=25">◀</button>
-<button class="btn" ontouchstart="px+=25">▶</button>
+<button class="btn" ontouchstart="cx-=40">⬅️</button>
+<button class="btn" ontouchstart="cx+=40">➡️</button>
 </div>`;
 
-let c=document.getElementById("c");
+let c=document.getElementById("car");
 let ctx=c.getContext("2d");
-let px=140,ox=Math.random()*280,oy=0;
+let cx=140;
+let obs=[];
 
 function loop(){
 ctx.clearRect(0,0,300,400);
-ctx.fillStyle="white";ctx.fillRect(px,360,20,20);
-ctx.fillStyle="red";ctx.fillRect(ox,oy,20,20);
-oy+=speed;
 
-if(px<ox+20&&px+20>ox&&360<oy+20){
+/* CAR */
+ctx.fillStyle="blue";
+ctx.fillRect(cx,330,30,50);
+
+/* OBSTACLES */
+if(Math.random()<0.03){
+obs.push({x:Math.random()*260,y:0});
+}
+
+for(let i=obs.length-1;i>=0;i--){
+obs[i].y+=speed;
+ctx.fillStyle="red";
+ctx.fillRect(obs[i].x,obs[i].y,30,30);
+
+if(cx<obs[i].x+30 && cx+30>obs[i].x && 330<obs[i].y+30){
 gameOver=true;
-if(score>high){high=score;localStorage.setItem("boxHigh",score);}
-document.getElementById("info").innerText=
+if(score>high){
+high=score;
+localStorage.setItem("carHigh",score);
+}
+document.getElementById("cinfo").innerText=
 "GAME OVER | Score "+score+" | High "+high;
 return;
 }
 
-if(oy>400){
-oy=0;ox=Math.random()*280;
-score++;speed+=0.3;
-document.getElementById("info").innerText=
-"Score: "+score+" | High: "+high;
+if(obs[i].y>400){
+obs.splice(i,1);
+score++;
+document.getElementById("cinfo").innerText=
+"Score: "+score+" | High "+high;
+}
 }
 anim=requestAnimationFrame(loop);
 }
 loop();
 }
 
-/* TAP JUMP */
-function startJump(){
+/* ================= RUNNING GAME ================= */
+function startRun(){
 clearGame();
-let y=200,vy=0,playing=false;
-let score=0;
-let high=localStorage.getItem("jumpHigh")||0;
-
 gameArea.innerHTML=`
-<h3>Tap Jump</h3>
-<p id="jinfo">Score: 0 | High: ${high}</p>
-<canvas id="j" width="300" height="300"></canvas>
-<p>Tap box to jump</p>`;
+<h3>🏃 Running Game</h3>
+<h4 id="rscore">Score: 0</h4>
+<canvas id="run" width="800" height="200"></canvas>
+`;
 
-let c=document.getElementById("j");
-let ctx=c.getContext("2d");
+const canvas=document.getElementById("run");
+const ctx=canvas.getContext("2d");
+let score=0,speed=5,over=false;
+const player={x:50,y:150,w:40,h:40,dy:0};
+const obs=[];
 
-c.onclick=()=>{
-if(!playing){playing=true;loop();}
-if(y>=200){vy=-18;score++; }
-};
+function jump(){
+if(player.y>=150){player.dy=-12;}
+if(over) startRun();
+}
+document.onkeydown=e=>{if(e.code==="Space") jump();}
+canvas.ontouchstart=jump;
+
+function spawn(){
+obs.push({x:canvas.width,y:160,w:20,h:40});
+}
 
 function loop(){
-ctx.clearRect(0,0,300,300);
-vy+=1;y+=vy;
-if(y>200){y=200;vy=0;}
-ctx.fillStyle="cyan";
-ctx.fillRect(140,y,20,20);
+if(over) return;
+ctx.clearRect(0,0,800,200);
+player.dy+=0.6;
+player.y+=player.dy;
+if(player.y>150){player.y=150;player.dy=0;}
 
-if(score>high){
-high=score;
-localStorage.setItem("jumpHigh",score);
+ctx.fillStyle="green";
+ctx.fillRect(player.x,player.y,player.w,player.h);
+
+if(Math.random()<0.02) spawn();
+for(let i=obs.length-1;i>=0;i--){
+obs[i].x-=speed;
+ctx.fillStyle="black";
+ctx.fillRect(obs[i].x,obs[i].y,obs[i].w,obs[i].h);
+
+if(player.x<obs[i].x+20 && player.x+40>obs[i].x && player.y+40>obs[i].y){
+over=true;
+ctx.fillText("GAME OVER",350,100);
 }
-document.getElementById("jinfo").innerText=
-"Score: "+score+" | High: "+high;
-
+if(obs[i].x+20<0){
+obs.splice(i,1);
+score++;
+document.getElementById("rscore").innerText="Score: "+score;
+}
+}
 anim=requestAnimationFrame(loop);
 }
+loop();
 }
 </script>
 
