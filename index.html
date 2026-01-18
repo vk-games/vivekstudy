@@ -34,6 +34,7 @@ header h1{
   align-items:center;
   min-height:70vh;
   flex-wrap:wrap;
+  padding:20px;
 }
 
 .book{
@@ -45,10 +46,15 @@ header h1{
   text-align:center;
   padding:20px;
   cursor:pointer;
+  transition:0.2s;
+}
+
+.book:hover{
+  transform:translateY(-5px);
 }
 
 .book h2{
-  margin-top:25px;
+  margin-top:30px;
 }
 
 .book p{
@@ -92,17 +98,33 @@ header h1{
 <!-- HOME PAGE -->
 <div class="container" id="home">
 
-  <!-- UNIT 1 -->
   <div class="book" onclick="openPDF('unit1')">
     <h2>Math-2</h2>
     <p><b>Unit-1</b></p>
     <p>Tap to Open PDF</p>
   </div>
 
-  <!-- UNIT 2 -->
   <div class="book" onclick="openPDF('unit2')">
     <h2>Math-2</h2>
     <p><b>Unit-2</b></p>
+    <p>Tap to Open PDF</p>
+  </div>
+
+  <div class="book" onclick="openPDF('unit3')">
+    <h2>Math-2</h2>
+    <p><b>Unit-3</b></p>
+    <p>Tap to Open PDF</p>
+  </div>
+
+  <div class="book" onclick="openPDF('unit4')">
+    <h2>Math-2</h2>
+    <p><b>Unit-4</b></p>
+    <p>Tap to Open PDF</p>
+  </div>
+
+  <div class="book" onclick="openPDF('unit5')">
+    <h2>Math-2</h2>
+    <p><b>Unit-5</b></p>
     <p>Tap to Open PDF</p>
   </div>
 
@@ -119,14 +141,15 @@ function openPDF(unit){
   document.getElementById("home").style.display="none";
   document.getElementById("viewer").style.display="block";
 
-  if(unit === "unit1"){
-    document.getElementById("pdfFrame").src =
-      "Mathematics-II_73700437_2026_01_07_16_41.pdf";
-  }
-  else if(unit === "unit2"){
-    document.getElementById("pdfFrame").src =
-      "Mathematics-II_Unit2.pdf";
-  }
+  let pdf = "";
+
+  if(unit === "unit1") pdf = "Mathematics-II_73700437_2026_01_07_16_41.pdf";
+  else if(unit === "unit2") pdf = "Mathematics-II_Unit2.pdf";
+  else if(unit === "unit3") pdf = "Mathematics-II_Unit3.pdf";
+  else if(unit === "unit4") pdf = "Mathematics-II_Unit4.pdf";
+  else if(unit === "unit5") pdf = "Mathematics-II_Unit5.pdf";
+
+  document.getElementById("pdfFrame").src = pdf;
 }
 
 function goBack(){
