@@ -29,9 +29,11 @@ header h1{
 /* HOME */
 .container{
   display:flex;
+  gap:20px;
   justify-content:center;
   align-items:center;
   min-height:70vh;
+  flex-wrap:wrap;
 }
 
 .book{
@@ -46,7 +48,7 @@ header h1{
 }
 
 .book h2{
-  margin-top:30px;
+  margin-top:25px;
 }
 
 .book p{
@@ -87,30 +89,50 @@ header h1{
   <h1>📘 Vivek Diploma Study</h1>
 </header>
 
-<!-- HOME -->
+<!-- HOME PAGE -->
 <div class="container" id="home">
-  <div class="book" onclick="openPDF()">
+
+  <!-- UNIT 1 -->
+  <div class="book" onclick="openPDF('unit1')">
     <h2>Math-2</h2>
-    <p>VK Notes</p>
-    <p><b>Tap to Open PDF</b></p>
+    <p><b>Unit-1</b></p>
+    <p>Tap to Open PDF</p>
   </div>
+
+  <!-- UNIT 2 -->
+  <div class="book" onclick="openPDF('unit2')">
+    <h2>Math-2</h2>
+    <p><b>Unit-2</b></p>
+    <p>Tap to Open PDF</p>
+  </div>
+
 </div>
 
 <!-- PDF VIEW -->
 <div id="viewer">
   <div class="back-btn" onclick="goBack()">⬅ Back</div>
-  <iframe src="Mathematics-II_73700437_2026_01_07_16_41.pdf"></iframe>
+  <iframe id="pdfFrame"></iframe>
 </div>
 
 <script>
-function openPDF(){
+function openPDF(unit){
   document.getElementById("home").style.display="none";
   document.getElementById("viewer").style.display="block";
+
+  if(unit === "unit1"){
+    document.getElementById("pdfFrame").src =
+      "Mathematics-II_73700437_2026_01_07_16_41.pdf";
+  }
+  else if(unit === "unit2"){
+    document.getElementById("pdfFrame").src =
+      "Mathematics-II_Unit2.pdf";
+  }
 }
 
 function goBack(){
   document.getElementById("viewer").style.display="none";
   document.getElementById("home").style.display="flex";
+  document.getElementById("pdfFrame").src = "";
 }
 </script>
 
