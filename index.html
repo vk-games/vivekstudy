@@ -6,126 +6,174 @@
 <title>Vivek Diploma Study</title>
 
 <style>
+:root{
+  --bg:#f4f7ff;
+  --card:#ffffff;
+  --text:#1f2937;
+  --primary:#2563eb;
+}
+.dark{
+  --bg:#0f172a;
+  --card:#1e293b;
+  --text:#e5e7eb;
+  --primary:#38bdf8;
+}
+
 body{
   margin:0;
-  font-family: system-ui, Arial;
-  background:#f3f6ff;
-  color:#222;
+  font-family:system-ui,Arial;
+  background:var(--bg);
+  color:var(--text);
+  transition:.3s;
 }
 
 /* HEADER */
 header{
-  background:linear-gradient(135deg,#2563eb,#1e40af);
+  background:linear-gradient(135deg,var(--primary),#1e3a8a);
   color:#fff;
-  padding:18px;
+  padding:16px;
   text-align:center;
-  font-size:22px;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+.toggle{
+  position:absolute;
+  right:14px;
+  top:14px;
+  border:none;
+  padding:6px 12px;
+  border-radius:20px;
   font-weight:600;
+  cursor:pointer;
 }
 
-/* ===== IMAGE SLIDER (RIGHT TO LEFT) ===== */
+/* IMAGE SLIDER */
 .marquee{
-  width:100%;
   overflow:hidden;
-  background:#ffffff;
-  border-bottom:4px solid #2563eb;
+  background:#fff;
+  border-bottom:4px solid var(--primary);
 }
-
 .marquee-track{
   display:flex;
   width:max-content;
-  animation: scroll-left 18s linear infinite;
+  animation:scroll 20s linear infinite;
 }
-
 .marquee img{
-  height:200px;
-  width:auto;
-  object-fit:cover;
+  height:180px;
   margin:10px;
-  border-radius:12px;
-  box-shadow:0 6px 15px rgba(0,0,0,0.2);
+  border-radius:14px;
+  box-shadow:0 6px 15px rgba(0,0,0,.2);
+}
+@keyframes scroll{
+  from{transform:translateX(0);}
+  to{transform:translateX(-50%);}
 }
 
-/* RIGHT TO LEFT ANIMATION */
-@keyframes scroll-left{
-  from{
-    transform: translateX(0);
-  }
-  to{
-    transform: translateX(-50%);
-  }
+/* SEARCH */
+.search{
+  padding:14px;
+  text-align:center;
+}
+.search input{
+  width:90%;
+  max-width:400px;
+  padding:12px;
+  border-radius:30px;
+  border:none;
+  outline:none;
+}
+
+/* TABS */
+.tabs{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  padding:10px;
+  flex-wrap:wrap;
+}
+.tab{
+  padding:8px 16px;
+  border-radius:20px;
+  background:#e0e7ff;
+  font-weight:600;
+  cursor:pointer;
+}
+.tab.active{
+  background:var(--primary);
+  color:#fff;
 }
 
 /* GRID */
 .container{
   display:grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns:repeat(2,1fr);
   gap:18px;
-  padding:20px;
+  padding:18px;
 }
-
 @media(min-width:700px){
-  .container{
-    grid-template-columns: repeat(3, 1fr);
-  }
+  .container{grid-template-columns:repeat(3,1fr);}
 }
 
 /* CARD */
 .book{
-  background:#ffffff;
-  border-radius:16px;
-  padding:18px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.12);
+  background:var(--card);
+  border-radius:18px;
+  padding:16px;
   text-align:center;
+  box-shadow:0 10px 25px rgba(0,0,0,.15);
 }
-
-.book h2{
-  margin:10px 0 5px;
-  color:#1e3a8a;
-}
-
+.book h3{margin:6px 0;}
 .unit{
+  background:#c7d2fe;
   display:inline-block;
-  background:#e0e7ff;
-  color:#3730a3;
   padding:5px 14px;
   border-radius:20px;
-  font-size:14px;
-  margin-bottom:10px;
+  font-size:13px;
+  margin-bottom:8px;
 }
-
-/* BUTTONS */
 .btn{
   display:block;
-  margin:8px 0;
+  margin:6px 0;
   padding:10px;
-  border-radius:10px;
+  border-radius:12px;
+  color:#fff;
   text-decoration:none;
-  font-size:14px;
   font-weight:600;
 }
+.open{background:#2563eb;}
+.download{background:#16a34a;}
+.hide{display:none;}
 
-.open{
-  background:#2563eb;
-  color:#fff;
+/* BOTTOM NAV */
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  background:#fff;
+  display:flex;
+  justify-content:space-around;
+  padding:10px 0;
+  box-shadow:0 -4px 10px rgba(0,0,0,.2);
 }
-
-.download{
-  background:#16a34a;
-  color:#fff;
-}
-
-.btn:active{
-  opacity:0.8;
+.bottom-nav button{
+  border:none;
+  background:none;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
 }
 </style>
 </head>
 
 <body>
 
-<header>📘 Vivek Diploma Study</header>
+<header>
+📘 Vivek Diploma Study
+<button class="toggle" onclick="toggleDark()">🌙</button>
+</header>
 
-<!-- IMAGE SCROLL SLIDER -->
+<!-- IMAGE SLIDER -->
 <div class="marquee">
   <div class="marquee-track">
     <img src="img1.jpg">
@@ -133,52 +181,102 @@ header{
     <img src="img3.jpg">
     <img src="img4.jpg">
     <img src="img5.jpg">
-
-    <!-- repeat for smooth loop -->
     <img src="img1.jpg">
     <img src="img2.jpg">
-    <img src="img3.jpg">
   </div>
 </div>
 
-<div class="container">
+<!-- SEARCH -->
+<div class="search">
+<input type="text" id="search" placeholder="Search subject or unit..." onkeyup="searchBooks()">
+</div>
 
-  <div class="book">
-    <h2>📐 Math-2</h2>
-    <div class="unit">Unit-1</div>
-    <a class="btn open" href="Mathematics-II_73700437_2026_01_07_16_41.pdf" target="_blank">📖 Open PDF</a>
-    <a class="btn download" href="Mathematics-II_73700437_2026_01_07_16_41.pdf" download>⬇ Download</a>
-  </div>
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="filterBooks('all',this)">All</div>
+  <div class="tab" onclick="filterBooks('math',this)">Math-2</div>
+  <div class="tab" onclick="filterBooks('physics',this)">Physics-2</div>
+  <div class="tab" onclick="filterBooks('mech',this)">Engineering Mechanics</div>
+</div>
 
-  <div class="book">
-    <h2>📐 Math-2</h2>
-    <div class="unit">Unit-2</div>
-    <a class="btn open" href="Mathematics-II_Unit2.pdf" target="_blank">📖 Open PDF</a>
-    <a class="btn download" href="Mathematics-II_Unit2.pdf" download>⬇ Download</a>
-  </div>
+<!-- CONTENT -->
+<div class="container" id="books">
 
-  <div class="book">
-    <h2>📐 Math-2</h2>
-    <div class="unit">Unit-3</div>
-    <a class="btn open" href="Mathematics-II_Unit-3.pdf" target="_blank">📖 Open PDF</a>
-    <a class="btn download" href="Mathematics-II_Unit-3.pdf" download>⬇ Download</a>
-  </div>
+<!-- MATH-2 -->
+<script>
+for(let i=1;i<=5;i++){
+ document.write(`
+ <div class="book math">
+   <h3>📐 Math-2</h3>
+   <div class="unit">Unit-${i}</div>
+   <a class="btn open">Open</a>
+   <a class="btn download">Download</a>
+ </div>
+ `);
+}
+</script>
 
-  <div class="book">
-    <h2>📐 Math-2</h2>
-    <div class="unit">Unit-4</div>
-    <a class="btn open" href="Mathematics-II_Unit-4.pdf" target="_blank">📖 Open PDF</a>
-    <a class="btn download" href="Mathematics-II_Unit-4.pdf" download>⬇ Download</a>
-  </div>
+<!-- PHYSICS-2 -->
+<script>
+for(let i=1;i<=5;i++){
+ document.write(`
+ <div class="book physics">
+   <h3>🔬 Physics-2</h3>
+   <div class="unit">Unit-${i}</div>
+   <a class="btn open">Open</a>
+   <a class="btn download">Download</a>
+ </div>
+ `);
+}
+</script>
 
-  <div class="book">
-    <h2>📐 Math-2</h2>
-    <div class="unit">Unit-5</div>
-    <a class="btn open" href="Mathematics-II_Unit-5.pdf" target="_blank">📖 Open PDF</a>
-    <a class="btn download" href="Mathematics-II_Unit-5.pdf" download>⬇ Download</a>
-  </div>
+<!-- ENGINEERING MECHANICS -->
+<script>
+for(let i=1;i<=5;i++){
+ document.write(`
+ <div class="book mech">
+   <h3>⚙ Engineering Mechanics</h3>
+   <div class="unit">Unit-${i}</div>
+   <a class="btn open">Open</a>
+   <a class="btn download">Download</a>
+ </div>
+ `);
+}
+</script>
 
 </div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+<button>🏠 Home</button>
+<button>📚 Subjects</button>
+<button>ℹ About</button>
+</div>
+
+<script>
+function filterBooks(type,el){
+ document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+ el.classList.add('active');
+
+ document.querySelectorAll('.book').forEach(b=>{
+  b.classList.remove('hide');
+  if(type!='all' && !b.classList.contains(type)){
+    b.classList.add('hide');
+  }
+ });
+}
+
+function searchBooks(){
+ let v=document.getElementById('search').value.toLowerCase();
+ document.querySelectorAll('.book').forEach(b=>{
+  b.style.display=b.innerText.toLowerCase().includes(v)?'block':'none';
+ });
+}
+
+function toggleDark(){
+ document.body.classList.toggle('dark');
+}
+</script>
 
 </body>
 </html>
